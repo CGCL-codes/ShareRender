@@ -95,6 +95,9 @@ static bool keymap_initialized = false;
 //#define SDLK_PRINT
 #define SDLK_BREAK	SDLK_PRINTSCREEN
 #endif
+
+
+cg::core::BTimer * ctrlTimer = NULL;
 namespace cg{
 
 	namespace input{
@@ -633,7 +636,7 @@ namespace cg{
 			conf = cg::input::CtrlConfig::GetCtrlConfig(STREAM_SERVER_CONFIG);
 #else
 
-			cg::RTSPConf *conf = cg::RTSPConf::GetRTSPConf(STREAM_SERVER_CONFIG);
+			cg::RTSPConf *conf = cg::RTSPConf::GetRTSPConf();
 #endif
 			cg::input::CtrlMessagerServer * ctrlServer = new cg::input::CtrlMessagerServer();
 			do{
@@ -652,6 +655,7 @@ namespace cg{
 						goto CTRL_CLEAN;	
 					}
 
+					cg::core::infoRecorder->logError("[MsgServer]: to set callback:%p.\n", replayCallback);
 					ctrlServer->setReplay(replayCallback);
 
 					if (!ctrlServer->start()){
@@ -688,6 +692,7 @@ CTRL_CLEAN:
 				pOutputWindowRect = new RECT;
 				memcpy(pOutputWindowRect, pOutputRect, sizeof(RECT));
 			}
+			initKeyMap();
 		}
 
 		ReplayCallbackImp::~ReplayCallbackImp(){
@@ -766,6 +771,8 @@ CTRL_CLEAN:
 
 #ifdef WIN32
 
+		
+
 		void ReplayCallbackImp::replayNative(sdlmsg_t *msg){
 			INPUT				in;
 			sdlmsg_keyboard_t *	msgk = (sdlmsg_keyboard_t*) msg;
@@ -781,11 +788,22 @@ CTRL_CLEAN:
 						in.ki.dwFlags |= KEYEVENTF_KEYUP;
 					}
 					in.ki.wScan = MapVirtualKey(in.ki.wVk, MAPVK_VK_TO_VSC);
-					cg::core::infoRecorder->logTrace("sdl replayer: vk=%x scan=%x\n", in.ki.wVk, in.ki.wScan);
+
+					if(in.ki.wVk == VK_F11 && msgk->is_pressed == 0){
+						ctrlTimer->Start();
+					}
+
+					cg::core::infoRecorder->logError("sdl replayer: vk=%x scan=%x, is press:%d\n", in.ki.wVk, in.ki.wScan, msgk->is_pressed);
+#ifndef USE_INTERCEPTION
 					SendInput(1, &in, sizeof(in));
+
+#else
+					InitInterception();
+					generateKey(keyboard, msgk->is_pressed == 0 ? 1 : 0);
+#endif
 				} else {
 					////////////////
-					cg::core::infoRecorder->logTrace("sdl replayer: undefined key scan=%u(%04x) key=%u(%04x) mod=%u(%04x) pressed=%d\n",
+					cg::core::infoRecorder->logError("sdl replayer: undefined key scan=%u(%04x) key=%u(%04x) mod=%u(%04x) pressed=%d\n",
 						msgk->scancode, msgk->scancode,
 						msgk->sdlkey, msgk->sdlkey, msgk->sdlmod, msgk->sdlmod,
 						msgk->is_pressed);
@@ -852,7 +870,7 @@ CTRL_CLEAN:
 #endif
 				break;
 			case SDL_EVENT_MSGTYPE_MOUSEMOTION:
-				cg::core::infoRecorder->logError("sdl replayer: motion event x=%u y=%d\n", msgm->mousex, msgm->mousey);
+				cg::core::infoRecorder->logError("sdl replayer: motion event x=%u y=%d, is relative: %s\n", msgm->mousex, msgm->mousey, msgm->relativeMouseMode !=0 ? "true" : "false");
 				bzero(&in, sizeof(in));
 				in.type = INPUT_MOUSE;
 				// mouse x/y has to be mapped to (0,0)-(65535,65535)
@@ -1518,6 +1536,9 @@ error:
 
 #if 1
 		int CtrlMessagerServer::init(struct RTSPConf *conf, const char *ctrlid) {
+
+			this->conf = conf;
+
 			if (ctrlSocketInit(conf) < 0){
 				infoRecorder->logError("[CtrlMessagerServer]:init socket failed\n");
 				return -1;
@@ -1612,7 +1633,6 @@ error:
 		BOOL CtrlMessagerServer::onThreadStart(){
 			struct sockaddr_in csin, xsin;
 			clientaccepted = 0;
-			//
 
 			if (conf == NULL){
 				infoRecorder->logError("[CtrlMessagerServer]: NULL rtsp config\n");
