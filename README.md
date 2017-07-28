@@ -58,13 +58,13 @@ Unity Angry Bots: http://unity3d.com/showcase/live-demos#angrybots
 # ShareRender architecture
 
 ## System Commparison
-![image](https://github.com/CGCL-codes/sharerender/raw/master/pic/system-comparasion.png)
+![image](https://github.com/alanzw/sharerender/raw/master/pic/system-comparasion.png)
 
 ## Graphic Task example
-![image](https://github.com/CGCL-codes/sharerender/raw/master/pic/task-example.png)
+![image](https://github.com/alanzw/sharerender/raw/master/pic/task-example.png)
 
 ## Retrieving Geometry Data
-![image](https://github.com/CGCL-codes/sharerender/raw/master/pic/retrieving-data.png)
+![image](https://github.com/alanzw/sharerender/raw/master/pic/retrieving-data.png)
 
 ## Context Sync
-![image](https://github.com/CGCL-codes/sharerender/raw/master/pic/context-sync.png)
+![image](https://github.com/alanzw/sharerender/raw/master/pic/context-sync.png)
