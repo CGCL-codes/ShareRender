@@ -8,20 +8,20 @@ If you want to know more about ShareRender, please refer to our paper in Multime
  
 ## Set up
 
-###Prerequisites
+### Prerequisites
 
-####DirectX SDK
+#### DirectX SDK
 Microsoft Visual Studio (c++) 2010 (If you want to quick start, you can install Microsoft Visual C++ 2010 Redistributable Package, http://www.microsoft.com/en-us/download/details.aspx?id=5555)
 
 DirectX SDK 9.0 c (Recommended: DXSDK_Jun10 version, the version released in June 2010, http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
-####CUDA SDK
+#### CUDA SDK
 To use NVCUVENC encoding library, CUDA 6.0 is required. And for lastest GPU such maxwell, we can use NVENC instead.
 
-###Configuration
+### Configuration
 Add DirectX install path to System Environment as "DXSDK_DIR" and add CUDA 6.0 install path to "CUDA_PATH".
 
-###Build
+### Build
 
 Start to build the soluation in VS2010, if gets warnings about missing libraries, add them to linker input.
 
@@ -42,11 +42,11 @@ you need to re-compile all libraries).
 
 6. Start RenderProxy.exe with IP of DisManager in any physic server.
 
-7. Start client with request of RTSP and rqeust of game. (e.g. )
+7. Start client with request of RTSP and rqeust of game. (e.g. client config/client.rel.conf rtsp:://127.0.0.1:8554/Trine )
 
 8. Some other functions is integrated to system for convenience to query performance data. Please contact author for detailed information.
 
-##Game test cases
+## Game test cases
 
 
 SprillRitchie: http://sprill-ritchie-abenteuerliche-zeitreise.software.informer.com/1.0/
