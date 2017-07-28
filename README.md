@@ -1,6 +1,5 @@
 # ShareRender manual
 
-<<<<<<< HEAD
 ShareRender is a cloud gaming system that enables fine-grained resource sharing at the frame-level. 
 
 Existing cloud gaming systems suffer from low GPU utilization in the virtualized environment. Moreover, GPU resources are scheduled in units of virtual machines (VMs) and this kind of coarse-grained scheduling at the VM-level fails to fully exploit GPU processing capacity. ShareRender offloads graphics workloads within VMs directly to GPUs, bypassing GPU virtualization. For each game running in a VM, ShareRender starts a graphics wrapper to intercept frame rendering requests and assign them to render agents responsible for frame rendering on GPUs. Thanks to the flexible workload assignment among multiple render agents, ShareRender enables fine-grained resource sharing at the frame-level to significantly improve GPU utilization.
@@ -8,9 +7,6 @@ Existing cloud gaming systems suffer from low GPU utilization in the virtualized
 If you want to know more about ShareRender, please refer to our paper in Multimedia 2017. Wei Zhang, Xiaofei Liao, Peng Li, Hai Jin, Li Lin, "ShareRender: Bypassing GPU Virtualization to Enable Fine-grained Resource Sharing for Cloud Gaming". In Proceedings of ACM International Conference on Multimedia (MM'17), Mountain View, CA, 2017.
  
 ## Set up
-=======
-##Set up
->>>>>>> ed5af8f5afa0186411feabf697d200f5aea4d36c
 
 ###Prerequisites
 
@@ -29,11 +25,7 @@ Add DirectX install path to System Environment as "DXSDK_DIR" and add CUDA 6.0 i
 
 Start to build the soluation in VS2010, if gets warnings about missing libraries, add them to linker input.
 
-<<<<<<< HEAD
 ## Quick Start
-=======
-##Quick Start
->>>>>>> ed5af8f5afa0186411feabf697d200f5aea4d36c
 
 You can start with our pre-compiled exe files for Windows X86(with visual studio c++ 2010, the reason is that some other dependency library was compiled with VS2010, if using other version, 
 you need to re-compile all libraries).
@@ -80,8 +72,3 @@ Unity Angry Bots: http://unity3d.com/showcase/live-demos#angrybots
 
 ## Context Sync
 ![image](https://github.com/alanzw/sharerender/raw/master/pic/context-sync.png)
-<<<<<<< HEAD
-
-
-=======
->>>>>>> ed5af8f5afa0186411feabf697d200f5aea4d36c
